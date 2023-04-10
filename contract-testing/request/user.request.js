@@ -1,6 +1,6 @@
 import 'dotenv/config'
 
-import axios from 'axios'
+import axios, { AxiosError } from 'axios'
 import data from '../data/payload.json'
 
 const baseUrl = `http://localhost:${process.env.MOCK_PORT}`

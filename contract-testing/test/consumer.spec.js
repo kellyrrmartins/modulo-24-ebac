@@ -8,7 +8,7 @@ import { userList } from '../request/user.request';
 const mockProvider = new Pact({
   consumer: 'ebac-demo-store-admin',
   provider: 'ebac-demo-store-server',
-  port: process.env.MOK_PORT,
+  port: process.env.MOCK_PORT,
   log: resolve(process.cwd(), 'logs', 'pact.log'),
   dir: resolve(process.cwd(), 'pacts')
 })
@@ -25,12 +25,7 @@ describe('Teste de consumidor', () => {
             Authorization: 'Bearer  eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFkbWluIiwiaWF0IjoxNjgxMTIzMTkyLCJleHAiOjE2ODEyOTU5OTJ9.2BDsOoLqFVCQTt4hB1y6az8fB4trn1xMqQ51LfEY3nA',
             "Content-Type": 'Application/json'
           },
-          body: {
-
-            "operationName": "users",
-            "variables": {},
-            "query": "query users($where: UserWhereInput, $orderBy: UserOrderByInput, $skip: Float, $take: Float) {\n  items: users(where: $where, orderBy: $orderBy, skip: $skip, take: $take) {\n    createdAt\n    firstName\n    id\n    lastName\n    roles\n    updatedAt\n    username\n    __typename\n  }\n  total: _usersMeta(where: $where, orderBy: $orderBy, skip: $skip, take: $take) {\n    count\n    __typename\n  }\n}"
-          }
+          body: { "operationName": "users", "variables": { "where": {}, "take": 50, "skip": 0, "orderBy": { "id": "Asc" } }, "query": "query users($where: UserWhereInput, $orderBy: UserOrderByInput, $skip: Float, $take: Float) {\n  items: users(where: $where, orderBy: $orderBy, skip: $skip, take: $take) {\n    createdAt\n    firstName\n    id\n    lastName\n    roles\n    updatedAt\n    username\n    __typename\n  }\n  total: _usersMeta(where: $where, orderBy: $orderBy, skip: $skip, take: $take) {\n    count\n    __typename\n  }\n}" }
         },
         willRespondWith: {
           status: 200,
@@ -44,7 +39,7 @@ describe('Teste de consumidor', () => {
                   "createdAt": somethingLike("2023-03-29T10:31:16.894Z"),
                   "firstName": somethingLike("Kelly"),
                   "id": somethingLike("clftjr3bz0000sncqd2pmruz1"),
-                  "lastName": somethingLike("Admin"),
+                  "lastName": somethingLike("Martins"),
                   "roles": ["user"],
                   "updatedAt": somethingLike("2023-04-06T12:11:02.664Z"),
                   "username": somethingLike("admin"),
