@@ -63,16 +63,14 @@ describe('Consumer Test', () => {
   })
 
   // afterAll(() => mockProvider.finalize())
-
-  it('should return user list', () => {
-    return userList().then(response => {
-      const { firstName, lastName } = response.data.data.items[0]
-
-      expect(response.status).toEqual(200)
-      expect(firstName).toBe('Kelly')
-      expect(lastName).toBe('Martins')
-    })
-      .then(() => mockProvider.finalize())
-      .then(() => mockProvider.verify());
+  // afterEach(() => mockProvider.verify())
+  it('should return user list', async () => {
+    const response = await userList();
+    const { firstName, lastName } = response.data.data.items[0];
+    expect(response.status).toEqual(200);
+    expect(firstName).toBe('Kelly');
+    expect(lastName).toBe('Martins');
+    await mockProvider.finalize();
+    return await mockProvider.verify();
   });
 });
