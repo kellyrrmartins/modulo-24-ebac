@@ -30,7 +30,7 @@ describe('Consumer Test', () => {
             "variables": { "where": {}, "take": 50, "skip": 0, "orderBy": { "id": "Asc" } }, "query": "query users($where: UserWhereInput, $orderBy: UserOrderByInput, $skip: Float, $take: Float) {\n  items: users(where: $where, orderBy: $orderBy, skip: $skip, take: $take) {\n    createdAt\n    firstName\n    id\n    lastName\n    roles\n    updatedAt\n    username\n    __typename\n  }\n  total: _usersMeta(where: $where, orderBy: $orderBy, skip: $skip, take: $take) {\n    count\n    __typename\n  }\n}"
           }
         },
-        willRespondWith: {
+        "willRespondWith": {
           status: 200,
           headers: {
             "Content-Type": 'application/json; charset=utf-8'
@@ -62,18 +62,17 @@ describe('Consumer Test', () => {
     })
   })
 
+  // afterAll(() => mockProvider.finalize())
 
   it('should return user list', () => {
-    userList().then(response => {
+    return userList().then(response => {
       const { firstName, lastName } = response.data.data.items[0]
 
       expect(response.status).toEqual(200)
       expect(firstName).toBe('Kelly')
       expect(lastName).toBe('Martins')
     })
-      .then(() => {
-        mockProvider.finalize()
-        mockProvider.verify()
-      })
+      .then(() => mockProvider.finalize())
+      .then(() => mockProvider.verify());
   });
 });
