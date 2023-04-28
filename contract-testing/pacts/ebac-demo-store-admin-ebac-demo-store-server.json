@@ -1,0 +1,112 @@
+{
+  "consumer": {
+    "name": "ebac-demo-store-admin"
+  },
+  "interactions": [
+    {
+      "description": "a request",
+      "request": {
+        "body": {
+          "operationName": "users",
+          "query": "query users($where: UserWhereInput, $orderBy: UserOrderByInput, $skip: Float, $take: Float) {\n  items: users(where: $where, orderBy: $orderBy, skip: $skip, take: $take) {\n    createdAt\n    firstName\n    id\n    lastName\n    roles\n    updatedAt\n    username\n    __typename\n  }\n  total: _usersMeta(where: $where, orderBy: $orderBy, skip: $skip, take: $take) {\n    count\n    __typename\n  }\n}",
+          "variables": {
+            "orderBy": {
+              "id": "Asc"
+            },
+            "skip": 0,
+            "take": 50,
+            "where": {}
+          }
+        },
+        "headers": {
+          "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFkbWluIiwiaWF0IjoxNjgyNjc3Mjc5LCJleHAiOjE2ODI4NTAwNzl9.-EPA1aZbQmgqj015pJ73HJ3tVhQLcYxbYFCsxNRDdF0",
+          "Content-Type": "application/json"
+        },
+        "method": "POST",
+        "path": "/graphql"
+      },
+      "response": {
+        "body": {
+          "data": {
+            "items": [
+              {
+                "__typename": "User",
+                "createdAt": "2023-03-29T10:41:26.856Z",
+                "firstName": "Kelly",
+                "id": "clftk45zc0022mqcq6okdkfcy",
+                "lastName": "Martins",
+                "roles": [
+                  "user"
+                ],
+                "updatedAt": "2023-03-29T10:41:26.857Z",
+                "username": "kellyMartins"
+              },
+              {
+                "__typename": "User",
+                "createdAt": "2023-03-29T10:41:26.856Z",
+                "firstName": "Kelly",
+                "id": "clftk45zc0022mqcq6okdkfcy",
+                "lastName": "Martins",
+                "roles": [
+                  "user"
+                ],
+                "updatedAt": "2023-03-29T10:41:26.857Z",
+                "username": "kellyMartins"
+              }
+            ],
+            "total": {
+              "__typename": "MetaQueryPayload",
+              "count": "2"
+            }
+          }
+        },
+        "headers": {
+          "Content-Type": "application/json; charset=utf-8"
+        },
+        "matchingRules": {
+          "$.body.data.items": {
+            "match": "type",
+            "min": 2
+          },
+          "$.body.data.items[*].__typename": {
+            "match": "type"
+          },
+          "$.body.data.items[*].createdAt": {
+            "match": "type"
+          },
+          "$.body.data.items[*].firstName": {
+            "match": "type"
+          },
+          "$.body.data.items[*].id": {
+            "match": "type"
+          },
+          "$.body.data.items[*].lastName": {
+            "match": "type"
+          },
+          "$.body.data.items[*].updatedAt": {
+            "match": "type"
+          },
+          "$.body.data.items[*].username": {
+            "match": "type"
+          }
+        },
+        "status": 200
+      }
+    }
+  ],
+  "metadata": {
+    "pact-js": {
+      "version": "11.0.2"
+    },
+    "pactRust": {
+      "ffi": "0.4.0",
+      "models": "1.0.4"
+    },
+    "pactSpecification": {
+      "version": "2.0.0"
+    }
+  },
+  "provider": {
+    "name": "ebac-demo-store-server"
+  }
+}

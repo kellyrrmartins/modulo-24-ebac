@@ -1,5 +1,4 @@
 import 'dotenv/config'
-
 import { Pact } from "@pact-foundation/pact"
 import { resolve } from 'path'
 import { eachLike, somethingLike } from '@pact-foundation/pact/src/dsl/matchers';
@@ -23,7 +22,7 @@ describe('Consumer Test', () => {
           method: 'POST',
           path: '/graphql',
           headers: {
-            Authorization: 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFkbWluIiwiaWF0IjoxNjM3NjM1OTk4LCJleHAiOjE2Mzc4MDg3OTh9.oDPW0raH0iF-y5UGGb1_OkcD8AW_iLUV3EagvF0jzfQ',
+            Authorization: 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFkbWluIiwiaWF0IjoxNjgyNjc3Mjc5LCJleHAiOjE2ODI4NTAwNzl9.-EPA1aZbQmgqj015pJ73HJ3tVhQLcYxbYFCsxNRDdF0',
             "Content-Type": 'application/json'
           },
           body: {
@@ -57,21 +56,24 @@ describe('Consumer Test', () => {
               }
             }
           }
+
         }
       })
     })
   })
 
-  afterAll(() => mockProvider.finalize())
-  // afterEach(() => mockProvider.verify())
 
   it('should return user list', () => {
     userList().then(response => {
-      const { firstName, lastName } = response.data.items[1]
+      const { firstName, lastName } = response.data.data.items[0]
 
       expect(response.status).toEqual(200)
       expect(firstName).toBe('Kelly')
       expect(lastName).toBe('Martins')
     })
+      .then(() => {
+        mockProvider.finalize()
+        mockProvider.verify()
+      })
   });
 });
