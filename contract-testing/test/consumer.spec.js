@@ -13,7 +13,8 @@ const mockProvider = new Pact({
   dir: resolve(process.cwd(), 'pacts')
 })
 
-describe('Teste de consumidor', () => {
+describe('Consumer Test', () => {
+
   beforeAll(async () => {
     await mockProvider.setup().then(() => {
       mockProvider.addInteraction({
@@ -22,10 +23,13 @@ describe('Teste de consumidor', () => {
           method: 'POST',
           path: '/graphql',
           headers: {
-            Authorization: 'Bearer  eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFkbWluIiwiaWF0IjoxNjgxMTIzMTkyLCJleHAiOjE2ODEyOTU5OTJ9.2BDsOoLqFVCQTt4hB1y6az8fB4trn1xMqQ51LfEY3nA',
-            "Content-Type": 'Application/json'
+            Authorization: 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFkbWluIiwiaWF0IjoxNjM3NjM1OTk4LCJleHAiOjE2Mzc4MDg3OTh9.oDPW0raH0iF-y5UGGb1_OkcD8AW_iLUV3EagvF0jzfQ',
+            "Content-Type": 'application/json'
           },
-          body: { "operationName": "users", "variables": { "where": {}, "take": 50, "skip": 0, "orderBy": { "id": "Asc" } }, "query": "query users($where: UserWhereInput, $orderBy: UserOrderByInput, $skip: Float, $take: Float) {\n  items: users(where: $where, orderBy: $orderBy, skip: $skip, take: $take) {\n    createdAt\n    firstName\n    id\n    lastName\n    roles\n    updatedAt\n    username\n    __typename\n  }\n  total: _usersMeta(where: $where, orderBy: $orderBy, skip: $skip, take: $take) {\n    count\n    __typename\n  }\n}" }
+          body: {
+            "operationName": "users",
+            "variables": { "where": {}, "take": 50, "skip": 0, "orderBy": { "id": "Asc" } }, "query": "query users($where: UserWhereInput, $orderBy: UserOrderByInput, $skip: Float, $take: Float) {\n  items: users(where: $where, orderBy: $orderBy, skip: $skip, take: $take) {\n    createdAt\n    firstName\n    id\n    lastName\n    roles\n    updatedAt\n    username\n    __typename\n  }\n  total: _usersMeta(where: $where, orderBy: $orderBy, skip: $skip, take: $take) {\n    count\n    __typename\n  }\n}"
+          }
         },
         willRespondWith: {
           status: 200,
@@ -36,19 +40,20 @@ describe('Teste de consumidor', () => {
             "data": {
               "items": eachLike(
                 {
-                  "createdAt": somethingLike("2023-03-29T10:31:16.894Z"),
+                  "createdAt": somethingLike("2023-03-29T10:41:26.856Z"),
                   "firstName": somethingLike("Kelly"),
-                  "id": somethingLike("clftjr3bz0000sncqd2pmruz1"),
+                  "id": somethingLike("clftk45zc0022mqcq6okdkfcy"),
                   "lastName": somethingLike("Martins"),
                   "roles": ["user"],
-                  "updatedAt": somethingLike("2023-04-06T12:11:02.664Z"),
-                  "username": somethingLike("admin"),
+                  "updatedAt": somethingLike("2023-03-29T10:41:26.857Z"),
+                  "username": somethingLike("kellyMartins"),
                   "__typename": somethingLike("User")
                 },
-                { min: 3 }
+                { min: 2 }
               ),
               "total": {
-                "count": "3", "__typename": "MetaQueryPayload"
+                "count": "2",
+                "__typename": "MetaQueryPayload"
               }
             }
           }
@@ -57,11 +62,12 @@ describe('Teste de consumidor', () => {
     })
   })
 
-  // afterEach(() => mockProvider.verify())
   afterAll(() => mockProvider.finalize())
-  it('Deve retornar lista de usuario', () => {
+  // afterEach(() => mockProvider.verify())
+
+  it('should return user list', () => {
     userList().then(response => {
-      const { firstName, lastName } = response.data.data.items[1]
+      const { firstName, lastName } = response.data.items[1]
 
       expect(response.status).toEqual(200)
       expect(firstName).toBe('Kelly')
